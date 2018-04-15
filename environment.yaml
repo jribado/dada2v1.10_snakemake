@@ -1,0 +1,12 @@
+name: dada2v1.6
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - python=3.5.3
+  - snakemake=4.8.0
+  - bioconductor-dada2=1.6.0
+  - bioconductor-phyloseq=1.22.3
+  - bioconductor-genefilter=1.60
+  - r-readr
+  - r-dplyr
