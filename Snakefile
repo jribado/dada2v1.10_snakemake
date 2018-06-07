@@ -21,21 +21,21 @@ r2_filt = expand(os.path.join(FILTERED_FASTQ_DIR, "{sample}_R2_filt.fastq.gz"), 
 ################################################################################
 rule all:
 	input:
-		expand(os.path.join(PROJECT_DIR,  "0_qc_reports/pre_fastqc/{sample}_R{read}_fastqc.html"), sample=SAMPLES, read=['1', '2'])
+		expand(os.path.join(PROJECT_DIR,  "0_qc_reports/{sample}_R{read}_fastqc.html"), sample=SAMPLES, read=['1', '2'])
 		expand(os.path.join(ANALYSES_DIR, "dada2_phyloseq_{tax_method}_{min_sample_reads}_ffun_{min_samples}_{min_amplicon_reads}.Rds"), tax_method=config["taxonomy"], min_sample_reads = config["phyloseq"]["min_sample_reads"], min_samples = config["phyloseq"]["min_samples"], min_amplicon_reads = config["phyloseq"]["min_amplicon_reads"])
 
 
 ################################################################################
 rule pre_fastqc:
 	input: os.path.join(FASTQ_DIR, "{sample}_R{read}.fastq.gz")
-	output: os.path.join(WD, "0_qc_reports/{sample}_R{read}_fastqc.html")
+	output: os.path.join(WD, "00_qc_reports/{sample}_R{read}_fastqc.html")
 	threads: 1
 	log: os.path.join(WD, "slurm_logs/preFastqc_{sample}_R{read}")
 	shell: """
-	   mkdir -p {PROJECT_DIR}/0_qc_reports/
+	   mkdir -p {WD}/00_qc_reports/
 	   module load java/latest
 	   module load fastqc/0.11.2
-	   fastqc {input} --outdir {PROJECT_DIR}/0_qc_reports/
+	   fastqc {input} --outdir {WD}/0_qc_reports/
 	"""
 
 ################################################################################
