@@ -1,4 +1,4 @@
-wd: output
+wd: desired/output/path
 dada2_sm_dir: /github/download/dir/dada2_v1.6 # should contain the databases
 
 orig_fastqs: /dir/raw_fastq
@@ -15,12 +15,8 @@ filter_and_trim:
 taxonomy:
   - rdp
   - silva
-  - gg
 phyloseq:
   sample_data_table: path/to/sampleData.txt
   min_sample_reads: 1000
   min_samples: 3
   min_amplicon_reads: 10
-
-
-# ls /srv/gsfs0/projects/bhatt/ribado/negrin_prebiotic/phase1_prebiotic_healthy/1_filtered_fastq/ | cut -d '_' -f 1 | uniq
