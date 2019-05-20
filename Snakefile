@@ -19,24 +19,34 @@ r2_filt = expand(os.path.join(FILTERED_FASTQ_DIR, "{sample}_R2_filt.fastq.gz"), 
 
 
 ################################################################################
+localrules multiqc, dada2_to_phyloseq
+
 rule all:
 	input:
-		expand(os.path.join(PROJECT_DIR,  "0_qc_reports/{sample}_R{read}_fastqc.html"), sample=SAMPLES, read=['1', '2'])
+		expand(os.path.join(WD,  "0_qc_reports/{sample}_R{read}_fastqc.html"), sample=SAMPLES, read=['1', '2']),
 		expand(os.path.join(ANALYSES_DIR, "dada2_phyloseq_{tax_method}_{min_sample_reads}_ffun_{min_samples}_{min_amplicon_reads}.Rds"), tax_method=config["taxonomy"], min_sample_reads = config["phyloseq"]["min_sample_reads"], min_samples = config["phyloseq"]["min_samples"], min_amplicon_reads = config["phyloseq"]["min_amplicon_reads"])
 
 
 ################################################################################
 rule pre_fastqc:
 	input: os.path.join(FASTQ_DIR, "{sample}_R{read}.fastq.gz")
-	output: os.path.join(WD, "00_qc_reports/{sample}_R{read}_fastqc.html")
+	output: os.path.join(WD, "0_qc_reports/{sample}_R{read}_fastqc.html")
 	threads: 1
 	log: os.path.join(WD, "slurm_logs/preFastqc_{sample}_R{read}")
 	shell: """
-	   mkdir -p {WD}/00_qc_reports/
-	   module load java/latest
-	   module load fastqc/0.11.2
+	   mkdir -p {WD}/0_qc_reports/
 	   fastqc {input} --outdir {WD}/0_qc_reports/
 	"""
+		
+################################################################################
+rule multiqc:
+	input: expand(os.path.join(WD, "0_qc_reports/{sample}_R{read}_fastqc.html"), sample=SAMPLES, read=['1', '2'])
+	output: os.path.join(WD, "0_qc_reports/multiqc_report.html")
+	threads: 1
+	shell: """
+	   cd {WD}/0_qc_reports/
+	   multiqc {WD}/0_qc_reports/
+	"""		
 
 ################################################################################
 rule filter_and_trim:
@@ -110,7 +120,7 @@ rule merge_seqtabs:
 	log: os.path.join(WD, "slurm_logs/mergeSeqtab.txt")
 	shell: """
 		mkdir -p {MERGED_SEQTAB_DIR}
-        Rscript {DADA2_DIR}/scripts/merge_seqtabs.R {MERGED_SEQTAB_DIR} {input}
+        	Rscript {DADA2_DIR}/scripts/merge_seqtabs.R {MERGED_SEQTAB_DIR} {input}
 	"""
 
 ################################################################################
@@ -143,4 +153,4 @@ rule dada2_to_phyloseq:
 			{input.samp_data} {input.amp_table} {input.tax_table} {wildcards.tax_method}\
 			{wildcards.min_sample_reads} {wildcards.min_samples} {wildcards.min_amplicon_reads} \
 			{ANALYSES_DIR}
-		"""
+	"""
