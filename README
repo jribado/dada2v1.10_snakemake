@@ -1,1 +1,27 @@
-Updated from M. Durrant dada2 pipeline for a older version (https://github.com/durrantmm/dada2_snakemake)
+# Parallelizing DADA2 16S ribosomal RNA sequence processing. 
+For more details on this method, please visit: https://benjjneb.github.io/dada2/index.html
+This pipeline will create an abundance table of amplicon sequencing variants (ASVs) assigned taxonomy, and a phyloseq object for easy data exploration (https://joey711.github.io/phyloseq/). 
+
+## Installation
+This pipeline requires conda to create a self-contained Python virtual environment. To check for conda and to create the virtual environment, run install.sh. This install script has been edited from M. Durrant (https://github.com/durrantmm).
+
+## Input files
+Two main files required to specify pipeline parameters and a sample data file to create a phyloseq object for downstream analyses. Pipeline parameters can be set in config.yaml. I recommend copying this file into the desired output directory from the github clone directory before editing for future reference. 
+
+* Names for output folders for each step of the pipeline can be changes, but will be made under the specified original working directory('wd'). 
+* Paired-end sequence files must be renamed/symlink with the following naming convention within the orig_fastqs: 
+{sample_prefix}_R1.fastq.gz and {sample_prefix}_R2.fastq.gz
+* Trimming parameters should be specified by the length of reads and quality. r1_trunc is the preferred length of the forward reads and r2_trunc is for the reverse reads. The DADA2 error model adjusts for read quality, and therefore this can be specified as the full length without penalty. However, trimming does improve error correction time downstream. The best parameters can be determined looking at the average quality of forward and reverse reads in {wd}/0_qc_reports/multiqc_report.html where average read quality is > 20. 
+* Sample data file. This file needs the first column to be "sample_id" with the {sample prefix}, and any desired subsquent metadata. 
+* Phyloseq filtering. Remove samples with a minimum number of reads (min_sample_reads) or noisy ASVs found in a minimum number of samples (min_samples) with a low number of reads each (min_amplicon_reads). Both an unfiltered and filter phyloseq object are provided for comparison. 
+
+
+## Running the pipeline
+```
+source activate dada2v1.6
+snakemake -p -s path/to/dada2v1.6_snakemake/Snakefile \
+--configfile path/to/config.yaml 
+conda deactivate
+```
+
+For SCG users, this can be parallelized by adding ```--profile scg --jobs 100`` prior to the conda deactivate line. Set up instructions for snakemake + slurm integration: https://github.com/bhattlab/slurm. 
