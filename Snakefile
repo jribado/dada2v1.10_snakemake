@@ -24,6 +24,7 @@ localrules multiqc, dada2_to_phyloseq
 rule all:
 	input:
 		expand(os.path.join(WD,  "0_qc_reports/{sample}_R{read}_fastqc.html"), sample=SAMPLES, read=['1', '2']),
+		os.path.join(WD, "0_qc_reports/multiqc_report.html"), 
 		expand(os.path.join(ANALYSES_DIR, "dada2_phyloseq_{tax_method}_{min_sample_reads}_ffun_{min_samples}_{min_amplicon_reads}.Rds"), tax_method=config["taxonomy"], min_sample_reads = config["phyloseq"]["min_sample_reads"], min_samples = config["phyloseq"]["min_samples"], min_amplicon_reads = config["phyloseq"]["min_amplicon_reads"])
 
 
