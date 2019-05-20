@@ -1,9 +1,0 @@
-filter_and_trim:
- mem: 10
- time: 5
-learn_errors:
- mem:  30
- time: 48
-sample_inference:
- mem:  25
- time: 48
