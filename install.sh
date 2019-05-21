@@ -10,7 +10,7 @@ fi
 
 echo "Removing preexisting dada2 environment if exists"
 source deactivate
-conda remove --name dada2v1.6 --all --yes;
+conda remove --name dada2v1.10 --all --yes;
 
 echo "Creating the new dada2 environment from environment.yaml"
 conda env create -f environment.yaml;
