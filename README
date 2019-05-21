@@ -26,7 +26,8 @@ Two main files required to specify pipeline parameters and a sample data file to
 ## Running the pipeline
 
 ```
-source activate dada2v1.6
+module load gcc # must have a gcc compiler on Linux system -- does not work when adding to conda env
+source activate dada2v1.10
 snakemake -p -s path/to/dada2v1.6_snakemake/Snakefile \
 --configfile path/to/config.yaml 
 conda deactivate
