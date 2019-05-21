@@ -29,7 +29,7 @@ Two main files required to specify pipeline parameters and a sample data file to
 module load gcc # must have a gcc compiler on Linux system -- does not work when adding to conda env
 source activate dada2v1.10
 snakemake -p -s path/to/dada2v1.6_snakemake/Snakefile \
---configfile path/to/config.yaml 
+--configfile path/to/config.yaml --rerun-incomplete
 conda deactivate
 ```
 
