@@ -33,7 +33,7 @@ rule pre_fastqc:
 	input: os.path.join(FASTQ_DIR, "{sample}_R{read}.fastq.gz")
 	output: os.path.join(WD, "0_qc_reports/{sample}_R{read}_fastqc.html")
 	threads: 1
-	log: os.path.join(WD, "slurm_logs/preFastqc_{sample}_R{read}")
+	#log: os.path.join(WD, "slurm_logs/preFastqc_{sample}_R{read}")
 	shell: """
 	   mkdir -p {WD}/0_qc_reports/
 	   fastqc {input} --outdir {WD}/0_qc_reports/
@@ -64,7 +64,7 @@ rule filter_and_trim:
 	params:
 		r1_trunc = config['filter_and_trim']['r1_trunc'],
 		r2_trunc = config['filter_and_trim']['r2_trunc']
-	log: os.path.join(WD, "slurm_logs/filterTrim_{sample}")
+	#log: os.path.join(WD, "slurm_logs/filterTrim_{sample}")
 	shell: """
 		mkdir -p {FILTERED_FASTQ_DIR}
 		Rscript {DADA2_DIR}/scripts/filter_and_trim.R \
@@ -83,7 +83,7 @@ rule learn_errors:
 	resources:
 		mem=30,
 		time=24
-	log: os.path.join(WD, "slurm_logs/learnErrors.txt")
+	#log: os.path.join(WD, "slurm_logs/learnErrors.txt")
 	shell: """
 		mkdir -p {ERROR_MODEL_DIR}
 		Rscript {DADA2_DIR}/scripts/error_model.R \
@@ -104,7 +104,7 @@ rule sample_inference:
 	resources:
 		mem=20,
 		time=2
-	log: os.path.join(WD, "slurm_logs/sampleInference_{sample}")
+	#log: os.path.join(WD, "slurm_logs/sampleInference_{sample}")
 	shell: """
 		mkdir -p {SEQTABS_DIR}
 		Rscript {DADA2_DIR}/scripts/sample_inference.R \
@@ -118,7 +118,7 @@ rule merge_seqtabs:
 		rds = os.path.join(MERGED_SEQTAB_DIR, "dada2_seqtab.Rds"),
 		tsv = os.path.join(MERGED_SEQTAB_DIR, "dada2_seqtab.tsv")
 	threads: 2
-	log: os.path.join(WD, "slurm_logs/mergeSeqtab.txt")
+	#log: os.path.join(WD, "slurm_logs/mergeSeqtab.txt")
 	shell: """
 		mkdir -p {MERGED_SEQTAB_DIR}
         	Rscript {DADA2_DIR}/scripts/merge_seqtabs.R {MERGED_SEQTAB_DIR} {input}
@@ -129,7 +129,7 @@ rule assign_taxonomy:
 	input: rules.merge_seqtabs.output.rds
 	output: os.path.join(TAX_ASSIGNED_DIR, "dada2_{tax_method}_taxonomy.Rds")
 	threads: 1
-	log: os.path.join(WD, "slurm_logs/assignTax_{tax_method}")
+	#log: os.path.join(WD, "slurm_logs/assignTax_{tax_method}")
 	shell: """
 		mkdir -p {TAX_ASSIGNED_DIR}
         Rscript {DADA2_DIR}/scripts/assign_taxonomies.R \
@@ -144,10 +144,10 @@ rule dada2_to_phyloseq:
 		amp_table = rules.merge_seqtabs.output.rds,
 		tax_table = rules.assign_taxonomy.output
 	output:
-		#os.path.join(ANALYSES_DIR, "dada2_phyloseq_{tax_method}.Rds"),
+		os.path.join(ANALYSES_DIR, "dada2_phyloseq_{tax_method}.Rds"),
 		os.path.join(ANALYSES_DIR, "dada2_phyloseq_{tax_method}_{min_sample_reads}_ffun_{min_samples}_{min_amplicon_reads}.Rds")
 	threads: 1
-	log: os.path.join(WD, "slurm_logs/dada2Phyloseq_{tax_method}")
+	#log: os.path.join(WD, "slurm_logs/dada2Phyloseq_{tax_method}")
 	shell: """
 		mkdir -p {ANALYSES_DIR}
 		Rscript {DADA2_DIR}/scripts/dada2phyloseq.R \
