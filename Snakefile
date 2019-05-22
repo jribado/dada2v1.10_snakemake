@@ -144,7 +144,7 @@ rule dada2_to_phyloseq:
 		amp_table = rules.merge_seqtabs.output.rds,
 		tax_table = rules.assign_taxonomy.output
 	output:
-		os.path.join(ANALYSES_DIR, "dada2_phyloseq_{tax_method}.Rds"),
+		# os.path.join(ANALYSES_DIR, "dada2_phyloseq_{tax_method}.Rds"),
 		os.path.join(ANALYSES_DIR, "dada2_phyloseq_{tax_method}_{min_sample_reads}_ffun_{min_samples}_{min_amplicon_reads}.Rds")
 	threads: 1
 	#log: os.path.join(WD, "slurm_logs/dada2Phyloseq_{tax_method}")
