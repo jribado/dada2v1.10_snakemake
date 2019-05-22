@@ -19,7 +19,7 @@ r2_filt = expand(os.path.join(FILTERED_FASTQ_DIR, "{sample}_R2_filt.fastq.gz"), 
 
 
 ################################################################################
-localrules: multiqc, dada2_to_phyloseq
+#localrules: multiqc, dada2_to_phyloseq
 
 rule all:
 	input:
