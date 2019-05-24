@@ -33,6 +33,9 @@ rule pre_fastqc:
 	input: os.path.join(FASTQ_DIR, "{sample}_R{read}.fastq.gz")
 	output: os.path.join(WD, "0_qc_reports/{sample}_R{read}_fastqc.html")
 	threads: 1
+	resources:
+		time = 1,
+		mem = 32
 	#log: os.path.join(WD, "slurm_logs/preFastqc_{sample}_R{read}")
 	shell: """
 	   mkdir -p {WD}/0_qc_reports/
