@@ -24,6 +24,7 @@ dependencies:
   - bioconductor-delayedarray=0.8.0=r351h14c3975_0
   - bioconductor-genomeinfodb=1.18.1=r351_0
   - bioconductor-genomeinfodbdata=1.2.1=r351_0
+  - bioconductor-genefilter=1.64.0
   - bioconductor-genomicalignments=1.18.1=r351h14c3975_0
   - bioconductor-genomicranges=1.34.0=r351h14c3975_0
   - bioconductor-iranges=2.16.0=r351h14c3975_0
@@ -56,6 +57,7 @@ dependencies:
   - docutils=0.14=py36_1001
   - dropbox=7.3.1=py36_0
   - expat=2.2.5=hf484d3e_1002
+  - fastqc=0.11.8
   - filechunkio=1.6=py36_0
   - fontconfig=2.13.1=he4413a7_1000
   - freetype=2.10.0=he983fc9_0
@@ -113,6 +115,7 @@ dependencies:
   - mpc=1.1.0=h10f8cd9_1
   - mpfr=4.0.1=hdf1c602_3
   - multidict=4.5.2=py36h14c3975_1000
+  - multiqc=1.6
   - ncurses=6.1=hf484d3e_1002
   - networkx=2.3=py_0
   - numpy=1.16.3=py36he5ce36f_0
@@ -154,6 +157,7 @@ dependencies:
   - r-crayon=1.3.4=r351h6115d3f_1001
   - r-data.table=1.11.6=r351hc070d10_0
   - r-digest=0.6.19=r351h0357c0b_0
+  - r-dplyr=0.8.1
   - r-fansi=0.4.0=r351h96ca727_1000
   - r-foreach=1.4.4=r351h6115d3f_1001
   - r-formatr=1.6=r351h6115d3f_0
@@ -187,6 +191,7 @@ dependencies:
   - r-rcpp=1.0.1=r351h0357c0b_0
   - r-rcppparallel=4.4.2=r351h0357c0b_0
   - r-rcurl=1.95_4.12=r351hcdcec82_0
+  - r-readr=1.3.1
   - r-reshape2=1.4.3=r351h29659fb_1003
   - r-rlang=0.3.4=r351hcdcec82_0
   - r-scales=1.0.0=r351h29659fb_1001
